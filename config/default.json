@@ -1,0 +1,4 @@
+{
+    "mongoURI": "mongodb+srv://ali:123321@cluster0.tr9fo.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+    "jwtSecret": "ali-secret"
+}

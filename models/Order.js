@@ -6,16 +6,8 @@ const OrderSchema = mongoose.Schema({
         required: true,
     }, 
     products: [{
-        id: {
+        productID: {
             type: mongoose.Schema.Types.ObjectId,
-            required: true,
-        },
-        title: {
-            type: String,
-            required: true,
-        },
-        price: {
-            type: Number,
             required: true,
         },
         buyQuantity: {
@@ -23,14 +15,8 @@ const OrderSchema = mongoose.Schema({
             required: true,
         },
         buyerID: {
-            id: {
-                type: mongoose.Schema.Types.ObjectId,
-                required: true,
-            },
-            name: {
-                type: String,
-                required: true,
-            }
+            type: mongoose.Schema.Types.ObjectId,
+            required: true,
         }
     }],
     date: {

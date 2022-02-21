@@ -24,8 +24,11 @@ router.get("/", auth, async (req, res) => {
 // @desc  Update A Product
 // @access Private
 router.put(
-  "/:id",
-  [auth, [check("products", "Please Enter a vaild data").isArray()]],
+    "/:id",
+    [auth, [
+      check("products", "Please Enter a vaild data").isArray(),
+    ]
+  ],
   async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty())

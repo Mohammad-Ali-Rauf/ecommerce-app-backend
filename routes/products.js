@@ -1,13 +1,8 @@
 const express = require("express");
 const router = express.Router();
-const jwt = require("jsonwebtoken");
 const { check, validationResult } = require("express-validator");
-const User = require("../models/User");
 const Product = require("../models/Product");
-const bcrypt = require("bcrypt");
-const config = require("config");
 const auth = require("../middleware/auth");
-const res = require("express/lib/response");
 
 // @route POST /api/products
 // @desc  Add new Product
@@ -73,7 +68,7 @@ router.get("/:userID", auth, async (req, res) => {
       return res.status(401).json({ msg: "User is not Authorized" });
     }
 
-    const products = await Product.findOne({
+    const products = await Product.find({
       ownerID: req.params.userID,
     }).select({ __v: 0 });
     res.status(200).json({ products });

@@ -3,6 +3,8 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const { check, validationResult } = require('express-validator');
 const User = require('../models/User');
+const Cart = require('../models/Cart');
+const Order = require('../models/Order');
 const bcrypt = require('bcrypt');
 const config = require('config');
 
@@ -33,6 +35,16 @@ router.post("/", [
         if(checkUser) return res.status(400).json({ msg: 'User already exists.' })
 
         await user.save();
+
+        await new Cart({
+            ownerID: user.id,
+            products: [],
+        }).save();
+
+        await new Order({
+            ownerID: user.id,
+            products: [],
+        }).save();
         
         const payload = {
             user: {

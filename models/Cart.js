@@ -6,11 +6,11 @@ const CartSchema = mongoose.Schema({
         required: true,
     }, 
     products: [{
-        id: {
+        productID: {
             type: mongoose.Schema.Types.ObjectId,
             required: true,
         },
-        quantity: {
+        selectedQuantity: {
             type: Number,
             required: true,
         }

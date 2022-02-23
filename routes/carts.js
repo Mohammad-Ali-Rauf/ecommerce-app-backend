@@ -25,7 +25,7 @@ router.get("/", auth, async (req, res) => {
 // @desc  Update Cart Product
 // @access Private
 router.put(
-  "/update/:productID",
+  "/:productID",
   [
     auth,
     [check("selectedQuantity", "Please Enter a vaild Quantity.").isNumeric()],

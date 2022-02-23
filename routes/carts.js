@@ -154,34 +154,40 @@ router.delete("/buy", auth, async (req, res) => {
     cart.products.map(async (product) => {
       let sellerProduct = await Product.findById(product.productID);
       if (product.selectedQuantity > sellerProduct.quantity) {
-        return res
-          .status(400)
-          .json({
-            msg: `Product ${sellerProduct.title} has ${sellerProduct.quantity}units available only.`,
-          });
+        return res.status(400).json({
+          msg: `Product ${sellerProduct.title} has ${sellerProduct.quantity}units available only.`,
+        });
       }
     });
 
-    cart.products.map(async product => {
+    cart.products.map(async (product) => {
       let sellerProduct = await Product.findById(product.productID);
-      await Product.findByIdAndUpdate(product.productID, {
-        $set: {
-          quantity: sellerProduct.quantity - product.selectedQuantity
-        }
-      }, { new: true });
-      let orders = await Order.findOne({ ownerID: req.user.id })
-      await Order.findByIdAndUpdate(orders.id, {
-        $set: {
-          products: [
-            ...orders.products,
-            {
-              productID: product.productID,
-              buyQuantity: product.selectedQuantity,
-              buyerID: req.user.id,
-            }
-          ]
-        }
-      }, { new: true });
+      await Product.findByIdAndUpdate(
+        product.productID,
+        {
+          $set: {
+            quantity: sellerProduct.quantity - product.selectedQuantity,
+          },
+        },
+        { new: true }
+      );
+      let orders = await Order.findOne({ ownerID: req.user.id });
+      await Order.findByIdAndUpdate(
+        orders.id,
+        {
+          $set: {
+            products: [
+              ...orders.products,
+              {
+                productID: product.productID,
+                buyQuantity: product.selectedQuantity,
+                buyerID: req.user.id,
+              },
+            ],
+          },
+        },
+        { new: true }
+      );
     });
 
     const changes = {

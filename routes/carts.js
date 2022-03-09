@@ -21,6 +21,23 @@ router.get("/", auth, async (req, res) => {
   }
 });
 
+// @route POST /api/carts
+// @desc  Add Product in User Cart
+// @access Private
+router.post("/", auth, async (req, res) => {
+  try {
+    let cart = await Cart.findById(req.user.id);
+
+    if (!cart) {
+      return res.status(400).json({ msg: "Cart does not exist." });
+    }
+    res.status(200).json({ cart });
+  } catch (err) {
+    console.log("Error ", err);
+    res.status(500).json({ msg: "Server Error" });
+  }
+});
+
 // @route PUT /api/carts/:productID
 // @desc  Update Cart Product
 // @access Private
